@@ -13,7 +13,6 @@ app.get('/client', async (req, res) => {
             res.status(404).send("client not found");
             return;
         }
-        console.log(username);
         res.send(JSON.stringify(client));
     } catch (error) {
         res.status(500).send(error);
