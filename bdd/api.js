@@ -25,18 +25,18 @@ app.get('/danger', async (req, res) => {
     let bdd = new Bdd_danger();
     await bdd.connect();
 
-        //try {
-            let positionStr = req.query.position;
-            let position = positionStr.split(',').map(Number);
-            let distance = parseFloat(req.query.distance);
-            let ping_danger = await bdd.get_danger_from_position(position, distance);
-            res.send(JSON.stringify(ping_danger));/*
-                    } catch (error) {
-                        console.error("An error occurred:", error);
-                        res.status(500).send("An error occurred while processing your request.");
-                    } finally {
-                        //await bdd.close();
-                    }*/
+    //try {
+    let positionStr = req.query.position;
+    let position = positionStr.split(',').map(Number);
+    let distance = parseFloat(req.query.distance);
+    let ping_danger = await bdd.get_danger_from_position(position, distance);
+    res.send(JSON.stringify(ping_danger));/*
+     } catch (error) {
+        console.error("An error occurred:", error);
+        res.status(500).send("An error occurred while processing your request.");
+    } finally {
+        //await bdd.close();
+    }*/
 })
 
 app.listen(3000, () => {
