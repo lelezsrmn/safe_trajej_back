@@ -7,6 +7,19 @@ class Bdd_danger {
         this.danger = new MongoClient(this.uri);
     }
 
+    async connect() {
+        await this.danger.connect();
+        this.db = this.danger.db('safe_trajej');
+        if (!this.db) {
+            throw new Error("db not found");
+        }
+        this.collection = await this.db.collection("ping_danger");
+        if (!this.collection) {
+            throw new Error("collection ping_danger not found");
+        }
+        await this.collection.createIndex({ position: "2dsphere" });
+    }
+
     async get_danger_from_position(position, distance) {
         try {
             let cursor = await this.collection.find({
@@ -33,18 +46,6 @@ class Bdd_danger {
         }
     }
 
-    async connect() {
-        await this.danger.connect();
-        this.db = this.danger.db('safe_trajej');
-        if (!this.db) {
-            throw new Error("db not found");
-        }
-        this.collection = await this.db.collection("ping_danger");
-        if (!this.collection) {
-            throw new Error("collection ping_danger not found");
-        }
-        await this.collection.createIndex({ position: "2dsphere" });
-    }
 
      async create_danger(danger_type, position) {
         const danger_to_put = new Danger(

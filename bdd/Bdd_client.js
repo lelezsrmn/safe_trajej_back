@@ -9,6 +9,19 @@ class Bdd_client {
         this.client = new MongoClient(this.uri);
     }
 
+    async connect() {
+        await this.client.connect();
+        this.db = this.client.db('safe_trajej');
+
+        if (!this.db) {
+            throw new Error("db not found");
+        }
+        this.collection = await this.db.collection("usr");
+        if (!this.collection) {
+            throw new Error("collection usr not found");
+        }
+    }
+
     async create_client(username, email, first_name, last_name, password, adresses, num) {
         if (!(await this.test_client_is_exist(email)) && this.isValidEmail(email)) {
             const salt_rounds = 10;
@@ -37,19 +50,6 @@ class Bdd_client {
         return await bcrypt.compare(password, client.password);
     }
 
-    async connect() {
-        await this.client.connect();
-        this.db = this.client.db('safe_trajej');
-
-        if (!this.db) {
-            throw new Error("db not found");
-        }
-        this.collection = await this.db.collection("usr");
-        if (!this.collection) {
-            throw new Error("collection usr not found");
-        }
-    }
-
     async add_client_to_bdd(client) {
         const document = {
             username: client.get_username(),
@@ -75,7 +75,7 @@ class Bdd_client {
             const document = await this.collection.findOne({username: username});
 
             if (document) {
-                const client = new Client(
+                return new Client(
                     document.username,
                     document.email,
                     document.first_name,
@@ -84,7 +84,6 @@ class Bdd_client {
                     document.adresses,
                     document.num
                 );
-                return client;
             }
             return null;
     }
