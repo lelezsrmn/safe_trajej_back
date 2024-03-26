@@ -1,7 +1,6 @@
 const { MongoClient } = require('mongodb');
 const Client = require("./Client");
 const bcrypt = require('bcrypt');
-import emailValidator from 'email-validator';
 
 class Bdd_client {
     constructor() {
@@ -39,10 +38,6 @@ class Bdd_client {
             return 201;
         }
         return 400;
-    }
-
-    isValidEmail(email) {
-        return emailValidator.validate(email);
     }
 
     async authenticate_Client(username, password) {

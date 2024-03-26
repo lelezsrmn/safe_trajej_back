@@ -18,6 +18,7 @@
   "homepage": "https://github.com/lelezsrmn/safe_trajej_back#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "email_validator": "^1.0.0",
     "email-validator": "^2.0.4",
     "express": "^4.19.2",
     "mongodb": "^6.5.0"
