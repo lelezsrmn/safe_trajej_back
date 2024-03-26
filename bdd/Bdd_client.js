@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const Client = require("./Client");
 const bcrypt = require('bcrypt');
+import emailValidator from 'email-validator';
 
 class Bdd_client {
     constructor() {
@@ -8,20 +9,27 @@ class Bdd_client {
         this.client = new MongoClient(this.uri);
     }
 
-    async create_client(res, username, email, first_name, last_name, password, adresses, num) {
-        const salt_rounds = 10;
-        const hashed_password = await bcrypt.hash(password, salt_rounds)
-        const client = new Client(
-            username,
-            email,
-            first_name,
-            last_name,
-            hashed_password,
-            adresses,
-            num
-        );
-        await this.add_client_to_bdd(client);
-        return client;
+    async create_client(username, email, first_name, last_name, password, adresses, num) {
+        if (!(await this.test_client_is_exist(email)) && this.isValidEmail(email)) {
+            const salt_rounds = 10;
+            const hashed_password = await bcrypt.hash(password, salt_rounds)
+            const client = new Client(
+                username,
+                email,
+                first_name,
+                last_name,
+                hashed_password,
+                adresses,
+                num
+            );
+            await this.add_client_to_bdd(client);
+            return 201;
+        }
+        return 400;
+    }
+
+    isValidEmail(email) {
+        return emailValidator.validate(email);
     }
 
     async authenticate_Client(username, password) {
