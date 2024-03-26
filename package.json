@@ -1,0 +1,24 @@
+{
+  "name": "safe_trajej_back",
+  "version": "1.0.0",
+  "description": "back of safe_trajej",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lelezsrmn/safe_trajej_back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lelezsrmn/safe_trajej_back/issues"
+  },
+  "homepage": "https://github.com/lelezsrmn/safe_trajej_back#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "mongodb": "^6.5.0"
+  }
+}
