@@ -22,6 +22,7 @@ app.get('/client', async (req, res) => {
 });
 
 app.get('/danger', async (req, res) => {
+    console.log('starting danger')
     let bdd = new Bdd_danger();
     await bdd.connect();
 
