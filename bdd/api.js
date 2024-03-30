@@ -41,6 +41,23 @@ app.get('/danger', async (req, res) => {
     }
 })
 
+
+app.post('/danger', async (req, res) => {
+    console.log('post danger')
+    try {
+        let bdd_danger = new Bdd_danger();
+        await bdd_danger.connect();
+
+        let danger_type = req.query.danger_type;
+        let positionStr = req.query.position;
+        let position = positionStr.split(',').map(Number);
+        await bdd_danger.create_danger(danger_type, position);
+    } catch (err) {
+        console.error("An error occurred:", err);
+        res.status(500).send("An error occurred while processing your request.");
+    }
+})
+
 app.listen(3030, () => {
     console.log('Server listening on port 3030');
 });
