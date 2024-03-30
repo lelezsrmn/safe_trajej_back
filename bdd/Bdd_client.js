@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 const Client = require("./Client");
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
 class Bdd_client {
     constructor() {
@@ -22,15 +22,16 @@ class Bdd_client {
     }
 
     async create_client(username, email, first_name, last_name, password, adresses, num) {
-        if (!(await this.test_client_is_exist(email)) && this.isValidEmail(email)) {
+        if (!(await this.test_client_is_exist(email))) {
             const salt_rounds = 10;
-            const hashed_password = await bcrypt.hash(password, salt_rounds)
+         //   const hashed_password = await bcrypt.hash(password, salt_rounds)
             const client = new Client(
                 username,
                 email,
                 first_name,
                 last_name,
-                hashed_password,
+              //  hashed_password,
+                password,
                 adresses,
                 num
             );
@@ -40,10 +41,10 @@ class Bdd_client {
         return 400;
     }
 
-    async authenticate_Client(username, password) {
-        const client = await this.get_client_from_username(username);
-        return await bcrypt.compare(password, client.password);
-    }
+ //   async authenticate_Client(username, password) {
+   ///     const client = await this.get_client_from_username(username);
+   //     return await bcrypt.compare(password, client.password);
+   // }
 
     async add_client_to_bdd(client) {
         const document = {
@@ -61,6 +62,7 @@ class Bdd_client {
     }
 
     async test_client_is_exist(email) {
+
         const is_exist = await this.collection.findOne({email: email});
         return is_exist;
     }
